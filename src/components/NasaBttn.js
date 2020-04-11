@@ -18,7 +18,7 @@ export default function NasaBttn(props) {
     ${props =>
       props.type === "hover" ? `&:hover{background-color: #2196f3};` : null}
   `;
-  console.log(props.date);
+  // console.log(props.date);
   return (
     <div className="bttnContainer">
       <ArrowBttn
@@ -32,7 +32,7 @@ export default function NasaBttn(props) {
         </i>
       </ArrowBttn>
       <p>{props.date}</p>
-      <ArrowBttn type="hover" className="right">
+      <ArrowBttn onClick={props.forwardDate} type="hover" className="right">
         <i>
           <FontAwesomeIcon icon={faArrowAltCircleRight} />
         </i>

@@ -20,7 +20,7 @@ const NasaApi = props => {
       .catch(err => {
         console.log(err);
       });
-  }, []); //<-- Makes it fire once
+  }, [urlDate]); //<-- Makes it fire once
 
   const MainWrapper = styled.div`
     width: 80%;
@@ -38,22 +38,51 @@ const NasaApi = props => {
   `;
 
   let dateArray = [];
+  const [counter, setCounter] = useState(0);
 
   function backDate(e) {
-    let a = moment("2019-09-27");
-    let b = moment("2019-09-20");
+    let value = "";
+    let a = moment();
+    let b = moment("2018-09-20");
     for (let m = a; m.isAfter(b); m.subtract(1, "days")) {
       dateArray.push(m.format("YYYY-MM-DD"));
     }
 
     for (let i = 0; i < dateArray.length; i++) {
-      console.log(dateArray[i]);
+      if (counter === i) {
+        console.log(dateArray[i]);
+        nasa.date = dateArray[i];
+      }
     }
+    if (counter === 6) {
+      setCounter(0);
+    }
+    setCounter(counter + 1);
+    setUrlDate(nasa.date);
+  }
+
+  function forwardDate(e) {
+    //let a = moment(`${nasa.date}`);
+    //let b = moment("2018-09-20");
+    if (urlDate > moment()) {
+      for (let i = 0; i < dateArray.length; i++) {
+        if (counter === i) {
+          console.log(dateArray[i]);
+          nasa.date = dateArray[i];
+        }
+      }
+      // for (let m = a; m.isAfter(b); m.add(1, "days")) {
+      //  dateArray.push(m.format("YYYY-MM-DD"));
+      //}
+    }
+
+    setCounter(counter + 1);
+    setUrlDate(nasa.date);
   }
 
   return (
     <MainWrapper className="NasaContainer">
-      <NasaBttn backDate={backDate} date={nasa.date} />
+      <NasaBttn backDate={backDate} forwardDate={forwardDate} date={urlDate} />
 
       <NasaBlock
         key={nasa.toString()} //did not have to map over because it is not an array
